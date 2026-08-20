@@ -4,7 +4,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { useIsMobile } from "@/hooks/use-is-mobile";
 import type { TabId } from "@/components/immersive/types";
-import { TopToolbar } from "@/components/immersive/top-toolbar";
 import { TabContent } from "@/components/immersive/tab-content";
 import { MobileLayout } from "@/components/immersive/mobile-layout";
 import { DesktopSidebar } from "@/components/immersive/desktop-sidebar";
@@ -12,6 +11,7 @@ import { BarbellTabs } from "@/components/immersive/barbell-tabs";
 import { DumbbellHeader } from "@/components/immersive/dumbbell-header";
 import { PromoDialog } from "@/components/immersive/promo-dialog";
 import { SocialMedia } from "@/components/immersive/social-media";
+import { MobileSocialMedia } from "@/components/immersive/mobile-social-media";
 import { MousePointerClick, Music, Zap } from "lucide-react";
 
 const MODEL_ID = "YtiwUw2DFQL";
@@ -124,17 +124,26 @@ export default function Immersive() {
     [tab, open],
   );
 
-  const handleSelectSpace = useCallback((params?: Record<string, string>) => {
-    if (params) {
-      setSpaceParams(params);
-      setView("pano");
-    }
-  }, []);
+  const handleSelectSpace = useCallback(
+    (params?: Record<string, string>) => {
+      if (params) {
+        setSpaceParams(params);
+        setView("pano");
+      }
+      if (isMobile) {
+        setOpen(false);
+      }
+    },
+    [isMobile],
+  );
 
   const handleResetView = useCallback(() => {
     setSpaceParams(null);
     setView("pano");
-  }, []);
+    if (isMobile) {
+      setOpen(false);
+    }
+  }, [isMobile]);
 
   const handleSubscribe = useCallback(() => {
     setTab("abonnements");
@@ -198,9 +207,10 @@ export default function Immersive() {
           </div>
         </div>
       )}
+      {/* Desktop S'abonner CTA Button */}
       <button
         onClick={handleSubscribe}
-        className="barbell-tab animate-slide-in-bottom barbell-subscribe group absolute bottom-4 right-8 z-20 flex min-w-24 cursor-pointer flex-col items-center justify-center overflow-hidden rounded-xl border border-lime bg-lime px-2 py-4 text-lime-foreground shadow-[0_0_25px_oklch(0.85_0.2_128/0.35)] transition-all duration-300 hover:scale-105 active:scale-95 lg:min-w-54"
+        className="barbell-tab animate-slide-in-bottom barbell-subscribe group hidden lg:flex absolute lg:bottom-4 lg:right-8 z-20 min-w-24 cursor-pointer flex-col items-center justify-center overflow-hidden rounded-xl border border-lime bg-lime px-2 py-4 text-lime-foreground shadow-[0_0_25px_oklch(0.85_0.2_128/0.35)] transition-all duration-300 hover:scale-105 active:scale-95 lg:min-w-54"
       >
         {/* Speed-line streaks, sweep across on a loop */}
         <span className="speed-line speed-line-1" />
@@ -214,7 +224,32 @@ export default function Immersive() {
           </span>
         </div>
       </button>
-      {/* Top toolbar — MOBILE ONLY */}
+
+      {/* Desktop Powered By BUILD360 Backlink Badge */}
+      {!isMobile && (
+        <a
+          href="https://build360.ma"
+          target="_blank"
+          rel="noopener noreferrer"
+          title="Visite virtuelle 3D réalisée par BUILD360"
+          aria-label="Visite virtuelle 3D réalisée par BUILD360"
+          className="group absolute left-2 bottom-5 z-20 hidden lg:flex items-center gap-2 rounded-full border border-zinc-800/80 bg-background/85 px-3 py-1.5 shadow-[0_4px_20px_rgba(0,0,0,0.6)] backdrop-blur-xl transition-all duration-300 hover:scale-105 hover:border-lime/60 hover:shadow-[0_0_15px_oklch(0.85_0.2_128/0.25)]"
+        >
+          <span className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground transition-colors group-hover:text-foreground">
+            Powered by
+          </span>
+          <img
+            src="/assets/logov1white.png"
+            alt="BUILD360"
+            className="h-6 w-auto object-contain opacity-80 transition-opacity group-hover:opacity-100"
+            width={85}
+            height={20}
+          />
+        </a>
+      )}
+
+      {isMobile && <DumbbellHeader onClick={() => setPromoOpen(true)} />}
+      {/* Top toolbar — MOBILE ONLY 
       {isMobile && (
         <TopToolbar
           isMobile
@@ -229,7 +264,7 @@ export default function Immersive() {
           setTab={setTab}
           onFullscreen={fullscreen}
         />
-      )}
+      )}*/}
 
       {/* Desktop Brand Dumbbell Header & Dropdown Connected Sidebar */}
       {!isMobile && (
@@ -254,14 +289,24 @@ export default function Immersive() {
 
       {/* Mobile layout */}
       {isMobile && (
-        <MobileLayout
-          tab={tab}
-          open={open}
-          onTabClick={handleTabClick}
-          onClose={() => setOpen(false)}
-        >
-          {tabContent}
-        </MobileLayout>
+        <>
+          <MobileLayout
+            tab={tab}
+            open={open}
+            onTabClick={handleTabClick}
+            onSubscribe={handleSubscribe}
+            onClose={() => setOpen(false)}
+          >
+            {tabContent}
+          </MobileLayout>
+
+          {/* Mobile Floating Social Media & Controls Button & Popover Grid */}
+          <MobileSocialMedia
+            isPlaying={isMusicPlaying}
+            onToggleMusic={toggleMusic}
+            onShare={handleShare}
+          />
+        </>
       )}
 
       {/* Desktop Permanent Barbell Tabs (Always displayed at bottom even when sidebar is closed) */}
