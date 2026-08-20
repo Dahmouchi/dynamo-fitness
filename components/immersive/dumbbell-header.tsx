@@ -23,7 +23,9 @@ export function DumbbellHeader({
         }
       }}
       className={`group relative flex items-center justify-center select-none ${
-        onClick ? "cursor-pointer transition-transform duration-300 hover:scale-105 active:scale-95 focus:outline-hidden" : ""
+        onClick
+          ? "cursor-pointer transition-transform duration-300 hover:scale-105 active:scale-95 focus:outline-hidden"
+          : ""
       } ${className}`}
       aria-label="Dynamo Fit Header - Voir l'offre"
       title={onClick ? "Cliquez pour voir l'offre spéciale" : undefined}

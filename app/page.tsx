@@ -19,7 +19,7 @@ const MODEL_ID = "YtiwUw2DFQL";
 export default function Immersive() {
   const isMobile = useIsMobile();
   const [tab, setTab] = useState<TabId>("club");
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [promoOpen, setPromoOpen] = useState(false);
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
@@ -32,15 +32,18 @@ export default function Immersive() {
   const [countdown, setCountdown] = useState(4 * 86400 + 40538);
   const shellRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const wasPlayingRef = useRef(false);
 
   const toggleMusic = useCallback(() => {
     if (!audioRef.current) return;
     if (audioRef.current.paused) {
+      wasPlayingRef.current = false;
       audioRef.current
         .play()
         .then(() => setIsMusicPlaying(true))
         .catch(() => {});
     } else {
+      wasPlayingRef.current = false;
       audioRef.current.pause();
       setIsMusicPlaying(false);
     }
@@ -54,6 +57,62 @@ export default function Immersive() {
         .then(() => setIsMusicPlaying(true))
         .catch(() => {});
     }
+  }, []);
+
+  // Pause music when tab/window is hidden or blurred, resume when focused if it was playing
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      const audio = audioRef.current;
+      if (!audio) return;
+
+      if (document.hidden) {
+        if (!audio.paused) {
+          wasPlayingRef.current = true;
+          audio.pause();
+          setIsMusicPlaying(false);
+        }
+      } else {
+        if (wasPlayingRef.current) {
+          audio
+            .play()
+            .then(() => setIsMusicPlaying(true))
+            .catch(() => {});
+          wasPlayingRef.current = false;
+        }
+      }
+    };
+
+    const handleWindowBlur = () => {
+      const audio = audioRef.current;
+      if (!audio) return;
+      if (!audio.paused) {
+        wasPlayingRef.current = true;
+        audio.pause();
+        setIsMusicPlaying(false);
+      }
+    };
+
+    const handleWindowFocus = () => {
+      const audio = audioRef.current;
+      if (!audio) return;
+      if (wasPlayingRef.current && !document.hidden) {
+        audio
+          .play()
+          .then(() => setIsMusicPlaying(true))
+          .catch(() => {});
+        wasPlayingRef.current = false;
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("blur", handleWindowBlur);
+    window.addEventListener("focus", handleWindowFocus);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("blur", handleWindowBlur);
+      window.removeEventListener("focus", handleWindowFocus);
+    };
   }, []);
 
   // Close mobile sheet on resize to mobile
@@ -248,7 +307,12 @@ export default function Immersive() {
         </a>
       )}
 
-      {isMobile && <DumbbellHeader onClick={() => setPromoOpen(true)} />}
+      {/* Mobile Top Brand Dumbbell Header */}
+      {isMobile && (
+        <div className="animate-slide-in-top absolute top-3 inset-x-0 z-30 flex justify-center">
+          <DumbbellHeader onClick={() => setPromoOpen(true)} />
+        </div>
+      )}
       {/* Top toolbar — MOBILE ONLY 
       {isMobile && (
         <TopToolbar

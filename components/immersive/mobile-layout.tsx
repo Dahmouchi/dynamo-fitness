@@ -66,7 +66,7 @@ export function MobileLayout({
 
       {/* Enhanced Floating Mobile Barbell Bottom Navigation Bar */}
       <nav
-        className="absolute inset-x-3 bottom-2 z-40 overflow-visible rounded-2xl border border-zinc-700/80 bg-background/90 px-2 py-1.5 shadow-[0_10px_35px_rgba(0,0,0,0.85),0_0_20px_oklch(0.85_0.2_128/0.2)] backdrop-blur-2xl"
+        className="animate-slide-in-bottom-dock absolute inset-x-3 bottom-2 z-40 overflow-visible rounded-2xl border border-zinc-700/80 bg-background/90 px-2 py-1.5 shadow-[0_10px_35px_rgba(0,0,0,0.85),0_0_20px_oklch(0.85_0.2_128/0.2)] backdrop-blur-2xl"
         style={{ marginBottom: "env(safe-area-inset-bottom, 0px)" }}
         aria-label="Navigation mobile principale"
       >

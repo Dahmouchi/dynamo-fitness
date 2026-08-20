@@ -471,5 +471,36 @@
 }
 
 .animate-fade-in {
-  animation: fadeIn 1s ease-out both;
+  animation: fadeIn 1.8s ease-out both;
+}
+
+/* Mobile Entrance Animations */
+@keyframes slide-in-top {
+  0% {
+    transform: translateY(-90px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in-top {
+  animation: slide-in-top 1.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes slide-in-bottom-dock {
+  0% {
+    transform: translateY(90px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in-bottom-dock {
+  animation: slide-in-bottom-dock 1.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
