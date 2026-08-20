@@ -359,7 +359,7 @@ export function MobileSocialMedia({
             : "Ouvrir les réseaux sociaux et contrôles"
         }
         title="Réseaux sociaux & radio"
-        className={`fixed right-4 bottom-24 z-10 flex size-12 cursor-pointer items-center justify-center rounded-2xl border-2 transition-all duration-300 active:scale-95 shadow-[0_10px_25px_rgba(0,0,0,0.7)] ${
+        className={`fixed right-4 bottom-32 z-10 flex size-12 cursor-pointer items-center justify-center rounded-2xl border-2 transition-all duration-300 active:scale-95 shadow-[0_10px_25px_rgba(0,0,0,0.7)] ${
           isOpen
             ? "border-lime bg-lime text-lime-foreground rotate-90 shadow-[0_0_25px_oklch(0.85_0.2_128/0.5)]"
             : "border-lime/70 bg-background/95 text-lime hover:border-lime hover:shadow-[0_0_20px_oklch(0.85_0.2_128/0.4)]"

@@ -161,7 +161,7 @@ export default function Immersive() {
   return (
     <div
       ref={shellRef}
-      className="relative h-screen w-full overflow-hidden bg-background"
+      className="relative h-dvh lg:h-screen w-full overflow-hidden bg-background"
     >
       {/* 3D space */}
       <iframe
