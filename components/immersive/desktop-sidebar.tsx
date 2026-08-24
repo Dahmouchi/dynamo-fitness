@@ -42,15 +42,15 @@ export function DesktopSidebar({
 
       {/* Sidebar Panel dropping down from top to bottom */}
       <aside
-        className={`relative  z-30 flex w-80 flex-col rounded-2xl pb-3 border border-zinc-800/90 bg-background/95 shadow-[0_20px_50px_rgba(0,0,0,0.7)] backdrop-blur-2xl transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] origin-top lg:w-96 ${
+        className={`relative z-30 flex w-80 lg:w-96 flex-col rounded-2xl pb-3 border border-zinc-800/90 bg-background/95 shadow-[0_20px_50px_rgba(0,0,0,0.7)] backdrop-blur-2xl transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] origin-top ${
           open
             ? "translate-y-0 opacity-100 scale-y-100 pointer-events-auto"
             : "-translate-y-6 opacity-0 scale-y-95 pointer-events-none overflow-hidden"
         }`}
-        style={{ height: open ? "calc(101vh - 140px)" : 0 }}
+        style={{ height: open ? "calc(100vh - 160px)" : 0, maxHeight: "calc(100vh - 160px)" }}
       >
         {/* ---- Header with active section title + close button ---- */}
-        <div className="flex items-center justify-between border-b border-border/80 px-4 py-2.5 bg-card/50 rounded-2xl">
+        <div className="flex items-center justify-between border-b border-border/80 px-4 py-2.5 bg-card/50 rounded-t-2xl shrink-0">
           <div className="flex items-center gap-2">
             <span className="size-2 rounded-full bg-lime shadow-[0_0_8px_var(--color-lime)]" />
             <span className="skew-title text-xs font-black uppercase tracking-wider text-foreground">
@@ -67,7 +67,7 @@ export function DesktopSidebar({
         </div>
 
         {/* ---- Full-height scrollable panel content ---- */}
-        <div className="flex-1 h-[calc(100vh-100px)] overflow-y-auto">
+        <div className="flex-1 min-h-0 overflow-y-auto">
           {children}
         </div>
       </aside>

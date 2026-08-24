@@ -14,7 +14,7 @@ import { SocialMedia } from "@/components/immersive/social-media";
 import { MobileSocialMedia } from "@/components/immersive/mobile-social-media";
 import { MousePointerClick, Music, Zap } from "lucide-react";
 
-const MODEL_ID = "YtiwUw2DFQL";
+const MODEL_ID = "BV51UNAki75";
 
 export default function Immersive() {
   const isMobile = useIsMobile();
@@ -59,7 +59,7 @@ export default function Immersive() {
     }
   }, []);
 
-  // Pause music when tab/window is hidden or blurred, resume when focused if it was playing
+  // Pause music only when tab/window is hidden (switched tabs/minimized), resume when visible again
   useEffect(() => {
     const handleVisibilityChange = () => {
       const audio = audioRef.current;
@@ -82,36 +82,10 @@ export default function Immersive() {
       }
     };
 
-    const handleWindowBlur = () => {
-      const audio = audioRef.current;
-      if (!audio) return;
-      if (!audio.paused) {
-        wasPlayingRef.current = true;
-        audio.pause();
-        setIsMusicPlaying(false);
-      }
-    };
-
-    const handleWindowFocus = () => {
-      const audio = audioRef.current;
-      if (!audio) return;
-      if (wasPlayingRef.current && !document.hidden) {
-        audio
-          .play()
-          .then(() => setIsMusicPlaying(true))
-          .catch(() => {});
-        wasPlayingRef.current = false;
-      }
-    };
-
     document.addEventListener("visibilitychange", handleVisibilityChange);
-    window.addEventListener("blur", handleWindowBlur);
-    window.addEventListener("focus", handleWindowFocus);
 
     return () => {
       document.removeEventListener("visibilitychange", handleVisibilityChange);
-      window.removeEventListener("blur", handleWindowBlur);
-      window.removeEventListener("focus", handleWindowFocus);
     };
   }, []);
 
@@ -140,6 +114,8 @@ export default function Immersive() {
       qs: "0",
       brand: "0",
       lang,
+      ss: "9",
+      sr: "-0.2, 0.8",
     });
     if (spaceParams) {
       Object.entries(spaceParams).forEach(([k, v]) => {
@@ -186,7 +162,7 @@ export default function Immersive() {
   const handleSelectSpace = useCallback(
     (params?: Record<string, string>) => {
       if (params) {
-        setSpaceParams(params);
+        setSpaceParams({ qs: "1", ...params });
         setView("pano");
       }
       if (isMobile) {
@@ -269,16 +245,16 @@ export default function Immersive() {
       {/* Desktop S'abonner CTA Button */}
       <button
         onClick={handleSubscribe}
-        className="barbell-tab animate-slide-in-bottom barbell-subscribe group hidden lg:flex absolute lg:bottom-4 lg:right-8 z-20 min-w-24 cursor-pointer flex-col items-center justify-center overflow-hidden rounded-xl border border-lime bg-lime px-2 py-4 text-lime-foreground shadow-[0_0_25px_oklch(0.85_0.2_128/0.35)] transition-all duration-300 hover:scale-105 active:scale-95 lg:min-w-54"
+        className="barbell-tab animate-slide-in-bottom barbell-subscribe group hidden md:flex absolute bottom-3.5 right-3 xl:bottom-4 xl:right-8 z-20 cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-lime bg-lime px-3 py-2 sm:px-4 sm:py-2.5 xl:px-5 xl:py-3 text-lime-foreground shadow-[0_0_25px_oklch(0.85_0.2_128/0.35)] transition-all duration-300 hover:scale-105 active:scale-95 min-w-28 sm:min-w-32 xl:min-w-44"
       >
         {/* Speed-line streaks, sweep across on a loop */}
         <span className="speed-line speed-line-1" />
         <span className="speed-line speed-line-2" />
         <span className="speed-line speed-line-3" />
 
-        <div className="flash-dash relative flex flex-col items-center gap-1">
-          <Zap className="flash-flicker size-4 transition-transform group-hover:rotate-12" />
-          <span className="skew-title whitespace-nowrap text-[16px] font-black uppercase tracking-wider text-lime-foreground">
+        <div className="flash-dash relative flex items-center xl:flex-col gap-1.5 xl:gap-1">
+          <Zap className="flash-flicker size-3.5 sm:size-4 transition-transform group-hover:rotate-12" />
+          <span className="skew-title whitespace-nowrap text-xs sm:text-sm xl:text-[15px] font-black uppercase tracking-wider text-lime-foreground">
             S&apos;abonner
           </span>
         </div>
@@ -292,15 +268,15 @@ export default function Immersive() {
           rel="noopener noreferrer"
           title="Visite virtuelle 3D réalisée par BUILD360"
           aria-label="Visite virtuelle 3D réalisée par BUILD360"
-          className="group absolute left-2 bottom-5 z-20 hidden lg:flex items-center gap-2 rounded-full border border-zinc-800/80 bg-background/85 px-3 py-1.5 shadow-[0_4px_20px_rgba(0,0,0,0.6)] backdrop-blur-xl transition-all duration-300 hover:scale-105 hover:border-lime/60 hover:shadow-[0_0_15px_oklch(0.85_0.2_128/0.25)]"
+          className="group absolute left-3 bottom-3.5 xl:left-4 xl:bottom-4 z-20 hidden md:flex items-center gap-1.5 sm:gap-2 rounded-full border border-zinc-800/80 bg-background/85 px-2.5 py-1 sm:px-3 sm:py-1.5 shadow-[0_4px_20px_rgba(0,0,0,0.6)] backdrop-blur-xl transition-all duration-300 hover:scale-105 hover:border-lime/60 hover:shadow-[0_0_15px_oklch(0.85_0.2_128/0.25)]"
         >
-          <span className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground transition-colors group-hover:text-foreground">
+          <span className="text-[8px] sm:text-[9px] font-bold uppercase tracking-widest text-muted-foreground transition-colors group-hover:text-foreground">
             Powered by
           </span>
           <img
             src="/assets/logov1white.png"
             alt="BUILD360"
-            className="h-6 w-auto object-contain opacity-80 transition-opacity group-hover:opacity-100"
+            className="h-4 sm:h-5 xl:h-6 w-auto object-contain opacity-80 transition-opacity group-hover:opacity-100"
             width={85}
             height={20}
           />
@@ -375,13 +351,15 @@ export default function Immersive() {
 
       {/* Desktop Permanent Barbell Tabs (Always displayed at bottom even when sidebar is closed) */}
       {!isMobile && (
-        <div className="animate-slide-in-bottom absolute bottom-4 left-1/2 z-40">
-          <BarbellTabs
-            tab={tab}
-            open={open}
-            onTabSelect={handleTabClick}
-            onSubscribe={handleSubscribe}
-          />
+        <div className="pointer-events-none absolute inset-x-0 bottom-3.5 xl:bottom-4 z-40 flex justify-center">
+          <div className="pointer-events-auto animate-slide-in-bottom">
+            <BarbellTabs
+              tab={tab}
+              open={open}
+              onTabSelect={handleTabClick}
+              onSubscribe={handleSubscribe}
+            />
+          </div>
         </div>
       )}
 

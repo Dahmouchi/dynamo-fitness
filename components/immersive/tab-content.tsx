@@ -1,17 +1,20 @@
+import { useState, useEffect, useRef } from "react";
 import {
   ChevronRight,
   Clock,
   MapPin,
   Maximize2,
   Phone,
+  Calendar,
+  Swords,
+  Shield,
+  HandFist,
+  Flame,
+  Target,
+  Dumbbell,
 } from "lucide-react";
-import {
-  spaces,
-  programme,
-  options,
-  plans,
-  hours,
-} from "./data";
+import type { LucideIcon } from "lucide-react";
+import { spaces, programme, options, plans, hours } from "./data";
 import { SectionTitle, Panel, Pill } from "./ui";
 import type { TabId } from "./types";
 
@@ -21,9 +24,87 @@ interface TabContentProps {
   onResetView: () => void;
 }
 
+const categoryStyles: Record<
+  string,
+  { bg: string; text: string; border: string; label: string; icon: LucideIcon }
+> = {
+  taekwondo: {
+    bg: "bg-blue-500/15",
+    text: "text-blue-400",
+    border: "border-blue-500/30",
+    label: "Taekwondo",
+    icon: Swords,
+  },
+  jjb: {
+    bg: "bg-amber-500/15",
+    text: "text-amber-300",
+    border: "border-amber-500/30",
+    label: "JJB",
+    icon: Shield,
+  },
+  mma: {
+    bg: "bg-red-500/15",
+    text: "text-red-400",
+    border: "border-red-500/30",
+    label: "MMA",
+    icon: HandFist,
+  },
+  kickboxing: {
+    bg: "bg-sky-500/15",
+    text: "text-sky-400",
+    border: "border-sky-500/30",
+    label: "Kickboxing",
+    icon: Flame,
+  },
+  boxing: {
+    bg: "bg-cyan-500/15",
+    text: "text-cyan-400",
+    border: "border-cyan-500/30",
+    label: "Boxe",
+    icon: Target,
+  },
+  fitness: {
+    bg: "bg-lime/15",
+    text: "text-lime",
+    border: "border-lime/30",
+    label: "Conditioning",
+    icon: Dumbbell,
+  },
+};
+
 export function TabContent({ tab, onScan, onResetView }: TabContentProps) {
+  const [selectedDay, setSelectedDay] = useState<string>("all");
+  const topRef = useRef<HTMLDivElement>(null);
+
+  // Scroll to top of the panel whenever the active tab changes
+  useEffect(() => {
+    const el = topRef.current;
+    if (!el) return;
+    // Find the closest scrollable parent (overflow-y-auto container)
+    let scrollParent: HTMLElement | null = el.parentElement;
+    while (scrollParent) {
+      const style = getComputedStyle(scrollParent);
+      if (
+        style.overflowY === "auto" ||
+        style.overflowY === "scroll"
+      ) {
+        scrollParent.scrollTo({ top: 0 });
+        break;
+      }
+      scrollParent = scrollParent.parentElement;
+    }
+  }, [tab]);
+
+  const filteredProgramme =
+    selectedDay === "all"
+      ? programme
+      : programme.filter(
+          (d) => d.day.toLowerCase() === selectedDay.toLowerCase(),
+        );
+
   return (
     <>
+      <div ref={topRef} />
       {tab === "club" && (
         <Panel>
           <SectionTitle title="Le club" subtitle="Découvrez nos espaces" />
@@ -32,7 +113,7 @@ export function TabContent({ tab, onScan, onResetView }: TabContentProps) {
               <button
                 key={s.id}
                 onClick={() => onScan(s.params)}
-                className="group relative block w-full overflow-hidden rounded-xl border border-border text-left transition hover:border-lime/60"
+                className="group relative block cursor-pointer w-full overflow-hidden rounded-xl border border-border text-left transition hover:border-lime/60"
               >
                 <img
                   src={s.image}
@@ -68,39 +149,165 @@ export function TabContent({ tab, onScan, onResetView }: TabContentProps) {
       {tab === "programme" && (
         <Panel>
           <SectionTitle
-            title="Programme"
-            subtitle="Cours collectifs de la semaine"
+            title="Arts Martiaux"
+            subtitle="Planning hebdomadaire"
           />
-          <div className="space-y-5">
-            {programme.map((day) => (
-              <div key={day.day}>
-                <h3 className="mb-2 text-[11px] font-bold uppercase tracking-[0.2em] text-lime">
-                  {day.day}
-                </h3>
-                <div className="space-y-2">
-                  {day.items.map((it) => (
-                    <div
-                      key={it.n + it.t}
-                      className="flex items-center gap-3 rounded-lg border border-border bg-card/60 px-3 py-2.5 transition hover:border-lime/50 md:gap-4 md:px-4 md:py-3"
-                    >
-                      <span className="font-mono text-xs font-bold text-foreground md:text-sm">
-                        {it.t}
-                      </span>
-                      <div className="min-w-0 flex-1">
-                        <p className="truncate text-xs font-semibold md:text-sm">
-                          {it.n}
-                        </p>
-                        <p className="text-[10px] text-muted-foreground md:text-xs">
-                          {it.c} · {it.d}
-                        </p>
+
+          {/* Day Filter Chips */}
+          <div className="no-scrollbar -mx-1 mb-5 flex gap-1.5 overflow-x-auto px-1 pb-1 pt-0.5">
+            <button
+              onClick={() => setSelectedDay("all")}
+              className={`shrink-0 cursor-pointer rounded-full px-3 py-1 text-[11px] font-bold tracking-wide uppercase transition-all duration-200 ${
+                selectedDay === "all"
+                  ? "bg-lime text-lime-foreground shadow-[0_0_16px_oklch(0.85_0.2_128/0.35)] scale-105"
+                  : "border border-border/60 bg-card/40 text-muted-foreground hover:border-lime/40 hover:text-foreground hover:bg-card/70"
+              }`}
+            >
+              Tous
+            </button>
+            {programme.map((d) => {
+              const isToday =
+                d.day.toLowerCase() ===
+                new Intl.DateTimeFormat("fr-FR", { weekday: "long" })
+                  .format(new Date())
+                  .toLowerCase();
+              return (
+                <button
+                  key={d.day}
+                  onClick={() => setSelectedDay(d.day)}
+                  className={`relative shrink-0 cursor-pointer rounded-full px-3 py-1 text-[11px] font-bold tracking-wide uppercase transition-all duration-200 ${
+                    selectedDay === d.day
+                      ? "bg-lime text-lime-foreground shadow-[0_0_16px_oklch(0.85_0.2_128/0.35)] scale-105"
+                      : "border border-border/60 bg-card/40 text-muted-foreground hover:border-lime/40 hover:text-foreground hover:bg-card/70"
+                  }`}
+                >
+                  {d.day.slice(0, 3)}
+                  {isToday && selectedDay !== d.day && (
+                    <span className="absolute -top-0.5 -right-0.5 size-1.5 rounded-full bg-lime animate-pulse" />
+                  )}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Schedule Grid */}
+          <div className="space-y-6">
+            {filteredProgramme.map((day, dayIdx) => (
+              <div
+                key={day.day}
+                className="animate-in fade-in-0 slide-in-from-bottom-2"
+                style={{
+                  animationDelay: `${dayIdx * 60}ms`,
+                  animationFillMode: "backwards",
+                }}
+              >
+                {/* Day Header */}
+                <div className="mb-3 flex items-center gap-3">
+                  <div className="flex size-8 items-center justify-center rounded-lg bg-lime/10 text-lime">
+                    <Calendar className="size-3.5" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-sm font-black uppercase tracking-[0.15em] text-foreground">
+                      {day.day}
+                    </h3>
+                  </div>
+                  <span className="rounded-full bg-lime/10 px-2.5 py-0.5 text-[10px] font-bold text-lime tabular-nums">
+                    {day.items.length} cours
+                  </span>
+                </div>
+
+                {/* Session Cards */}
+                <div className="space-y-1.5">
+                  {day.items.map((it, idx) => {
+                    const style =
+                      it.category && categoryStyles[it.category]
+                        ? categoryStyles[it.category]
+                        : null;
+                    return (
+                      <div
+                        key={it.n + it.t + day.day}
+                        className="group relative overflow-hidden rounded-xl border border-border/60 bg-card/50 backdrop-blur-sm transition-all duration-300 hover:border-border hover:bg-card/80 hover:shadow-lg"
+                        style={{
+                          animationDelay: `${dayIdx * 60 + idx * 40}ms`,
+                          animationFillMode: "backwards",
+                        }}
+                      >
+                        {/* Left Category Accent Bar */}
+                        {style && (
+                          <div
+                            className={`absolute left-0 top-0 h-full w-0.75 ${style.bg.replace("/15", "")} opacity-80`}
+                            style={{
+                              background: `var(--tw-gradient-from, currentColor)`,
+                            }}
+                          />
+                        )}
+
+                        <div className="flex items-center gap-3 px-3.5 py-2.5 pl-4">
+                          {/* Category Icon */}
+                          {style && (
+                            <div
+                              className={`flex size-8 shrink-0 items-center justify-center rounded-lg ${style.bg} ${style.text}`}
+                            >
+                              <style.icon className="size-4" strokeWidth={2.5} />
+                            </div>
+                          )}
+
+                          {/* Info Block */}
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center gap-2">
+                              <p className="truncate text-[13px] font-bold text-foreground">
+                                {it.n}
+                              </p>
+                              {style && (
+                                <span
+                                  className={`hidden shrink-0 rounded-md px-1.5 py-px text-[8px] font-extrabold uppercase tracking-wider sm:inline-block ${style.bg} ${style.text}`}
+                                >
+                                  {style.label}
+                                </span>
+                              )}
+                            </div>
+                            <div className="mt-0.5 flex items-center gap-1.5 text-[10px] text-muted-foreground">
+                              <Clock className="size-2.5 opacity-50" />
+                              <span className="font-mono font-semibold">
+                                {it.t}
+                              </span>
+                              <span className="opacity-30">·</span>
+                              <span>{it.c}</span>
+                              <span className="opacity-30">·</span>
+                              <span>{it.d}</span>
+                            </div>
+                          </div>
+
+                          {/* Mobile Category Badge */}
+                          {style && (
+                            <span
+                              className={`shrink-0 rounded-md px-1.5 py-0.5 text-[8px] font-extrabold uppercase tracking-wider sm:hidden ${style.bg} ${style.text}`}
+                            >
+                              {style.label}
+                            </span>
+                          )}
+                        </div>
                       </div>
-                      <span className="rounded-md bg-lime/15 px-2 py-1 text-[9px] font-bold uppercase text-lime md:text-[10px]">
-                        Réserver
-                      </span>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
+            ))}
+          </div>
+
+          {/* Legend Strip */}
+          <div className="mt-5 flex flex-wrap items-center gap-2 border-t border-border/40 pt-4">
+            <span className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground/60">
+              Disciplines
+            </span>
+            {Object.entries(categoryStyles).map(([key, s]) => (
+              <span
+                key={key}
+                className={`flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[9px] font-bold ${s.bg} ${s.text}`}
+              >
+                <s.icon className="size-3" strokeWidth={2.5} />
+                {s.label}
+              </span>
             ))}
           </div>
         </Panel>
@@ -135,42 +342,90 @@ export function TabContent({ tab, onScan, onResetView }: TabContentProps) {
 
       {tab === "abonnements" && (
         <Panel>
-          <SectionTitle title="Abonnements" subtitle="Sans engagement" />
-          <div className="space-y-3">
+          <SectionTitle
+            title="Abonnements & Offres"
+            subtitle="Offres exclusives Dynamo Fit"
+          />
+          <div className="space-y-4">
             {plans.map((p) => (
               <div
                 key={p.name}
-                className={`rounded-xl border p-4 md:p-5 ${
+                className={`relative rounded-xl border p-4 md:p-5 transition-all ${
                   p.featured
                     ? "border-lime bg-lime/10 shadow-[0_0_40px_oklch(0.95_0.24_118/0.15)]"
                     : "border-border bg-card/60"
                 }`}
               >
-                <div className="flex items-center justify-between">
-                  <h3 className="skew-title text-lg md:text-xl">{p.name}</h3>
-                  {p.featured && (
-                    <span className="rounded-full bg-lime px-2.5 py-1 text-[10px] font-bold uppercase text-lime-foreground">
-                      Populaire
+                <div className="flex items-start justify-between gap-2">
+                  <div>
+                    <h3 className="skew-title text-lg md:text-xl font-bold text-foreground">
+                      {p.name}
+                    </h3>
+                    {p.subtitle && (
+                      <p className="mt-0.5 text-xs text-muted-foreground font-medium">
+                        {p.subtitle}
+                      </p>
+                    )}
+                  </div>
+                  {p.badge && (
+                    <span
+                      className={`rounded-full px-2.5 py-0.8 text-[10px] font-bold uppercase tracking-wider ${
+                        p.featured
+                          ? "bg-lime text-lime-foreground shadow-[0_0_12px_var(--color-lime)]"
+                          : "border border-lime/60 bg-lime/20 text-lime"
+                      }`}
+                    >
+                      {p.badge}
                     </span>
                   )}
                 </div>
-                <p className="mt-2 skew-title text-2xl text-lime md:text-3xl">
-                  {p.price}€
-                  <span className="text-xs text-muted-foreground md:text-sm">
+
+                {/* Price Display */}
+                <div className="mt-3 flex items-baseline gap-2">
+                  <span className="skew-title text-3xl font-black text-lime md:text-4xl">
+                    {p.price}
+                  </span>
+                  <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground md:text-sm">
                     {p.period}
                   </span>
-                </p>
-                <ul className="mt-2.5 space-y-1 text-xs text-muted-foreground md:mt-3 md:space-y-1.5 md:text-sm">
+                  {p.originalPrice && (
+                    <span className="text-sm font-semibold text-muted-foreground line-through decoration-red-500/80 decoration-2">
+                      {p.originalPrice} DH
+                    </span>
+                  )}
+                  {p.discount && (
+                    <span className="rounded bg-red-500/20 px-1.5 py-0.5 text-[10px] font-black text-red-400">
+                      {p.discount}
+                    </span>
+                  )}
+                </div>
+
+                {/* Tagline / Condition */}
+                {p.tag && (
+                  <p className="mt-1 text-[11px] font-semibold text-lime/90">
+                    ✦ {p.tag}
+                  </p>
+                )}
+
+                {/* Features List */}
+                <ul className="mt-3 space-y-1.5 text-xs text-muted-foreground md:mt-3.5 md:text-sm">
                   {p.features.map((f) => (
-                    <li key={f} className="flex gap-2">
-                      <span className="text-lime">—</span>
-                      {f}
+                    <li key={f} className="flex items-start gap-2">
+                      <span className="text-lime font-bold">✓</span>
+                      <span>{f}</span>
                     </li>
                   ))}
                 </ul>
-                <button className="skew-title mt-3 w-full rounded-lg bg-lime py-2 text-sm text-lime-foreground transition hover:brightness-110 md:mt-4 md:py-2.5 md:text-base">
-                  Je m&apos;abonne
-                </button>
+
+                {/* CTA Button */}
+                <a
+                  href={`https://wa.me/212610307060?text=${encodeURIComponent(`Bonjour, je souhaite m'inscrire à l'offre Dynamo Fit : ${p.name} (${p.price} ${p.period}).`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="skew-title mt-4 flex w-full items-center justify-center rounded-lg bg-lime py-2.5 text-center text-sm font-black text-lime-foreground transition hover:brightness-110 active:scale-[0.98] md:py-3 md:text-base"
+                >
+                  Profiter de l&apos;offre
+                </a>
               </div>
             ))}
           </div>
@@ -227,9 +482,12 @@ export function TabContent({ tab, onScan, onResetView }: TabContentProps) {
             </div>
             {/* Service pills */}
             <div className="flex flex-wrap gap-1.5 md:gap-2">
-              <Pill>Martial Arts</Pill>
-              <Pill>Bodybuilding 100% Men</Pill>
+              <Pill>Kickboxing</Pill>
+              <Pill>MMA</Pill>
+              <Pill>Taekwondo</Pill>
+              <Pill>Aïkido</Pill>
               <Pill>Kid&apos;s Gymnastics</Pill>
+              <Pill>Bodybuilding 100% Men</Pill>
               <Pill>Yoga & Pilates</Pill>
               <Pill>Parking gratuit</Pill>
               <Pill>Vestiaires & douches</Pill>

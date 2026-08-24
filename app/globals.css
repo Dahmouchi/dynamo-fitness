@@ -413,11 +413,11 @@
 
 @keyframes slide-in-bottom {
   0% {
-    transform: translate(-50%, 90px);
+    transform: translateY(90px);
     opacity: 0;
   }
   100% {
-    transform: translate(-50%, 0);
+    transform: translateY(0);
     opacity: 1;
   }
 }
