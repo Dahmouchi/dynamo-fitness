@@ -1,13 +1,13 @@
 "use client";
 
-import { Box, Calendar, Info, Sliders, Ticket } from "lucide-react";
+import { Box, Calendar, Dumbbell, Info, Sliders, Ticket } from "lucide-react";
 import type { TabId } from "./types";
 
 const tabs: { id: TabId; label: string; icon: typeof Box }[] = [
   { id: "club", label: "Club", icon: Box },
   { id: "programme", label: "Programme", icon: Calendar },
-  { id: "options", label: "Options", icon: Sliders },
-  { id: "abonnements", label: "Abos", icon: Ticket },
+  { id: "options", label: "Exercices", icon: Dumbbell },
+  { id: "abonnements", label: "Abonnements", icon: Ticket },
   { id: "infos", label: "Infos", icon: Info },
 ];
 

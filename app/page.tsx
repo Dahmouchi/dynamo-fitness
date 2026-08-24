@@ -10,8 +10,11 @@ import { DesktopSidebar } from "@/components/immersive/desktop-sidebar";
 import { BarbellTabs } from "@/components/immersive/barbell-tabs";
 import { DumbbellHeader } from "@/components/immersive/dumbbell-header";
 import { PromoDialog } from "@/components/immersive/promo-dialog";
+import { SpaceLoader } from "@/components/immersive/space-loader";
 import { SocialMedia } from "@/components/immersive/social-media";
 import { MobileSocialMedia } from "@/components/immersive/mobile-social-media";
+import { ExerciseDetailsSidebar } from "@/components/immersive/exercise-details-sidebar";
+import type { Exercise } from "@/lib/exercise-api";
 import { MousePointerClick, Music, Zap } from "lucide-react";
 
 const MODEL_ID = "BV51UNAki75";
@@ -21,6 +24,7 @@ export default function Immersive() {
   const [tab, setTab] = useState<TabId>("club");
   const [open, setOpen] = useState(false);
   const [promoOpen, setPromoOpen] = useState(false);
+  const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(null);
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
   const [muted, setMuted] = useState(true);
@@ -29,10 +33,19 @@ export default function Immersive() {
     null,
   );
   const [view, setView] = useState<"pano" | "dollhouse" | "floorplan">("pano");
+  const [loadingSpace, setLoadingSpace] = useState<string | null>(null);
   const [countdown, setCountdown] = useState(4 * 86400 + 40538);
   const shellRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const wasPlayingRef = useRef(false);
+  const loadingTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Clear timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (loadingTimerRef.current) clearTimeout(loadingTimerRef.current);
+    };
+  }, []);
 
   const toggleMusic = useCallback(() => {
     if (!audioRef.current) return;
@@ -110,7 +123,7 @@ export default function Immersive() {
   const src = useMemo(() => {
     const p = new URLSearchParams({
       m: MODEL_ID,
-      play: "1",
+      play: hasInteracted ? "1" : "0",
       qs: "0",
       brand: "0",
       lang,
@@ -125,7 +138,7 @@ export default function Immersive() {
     if (view === "dollhouse") p.set("dh", "1");
     if (view === "floorplan") p.set("f", "1");
     return `https://my.matterport.com/show/?${p.toString()}`;
-  }, [lang, spaceParams, view]);
+  }, [hasInteracted, lang, spaceParams, view]);
 
   const fullscreen = () => {
     const el = shellRef.current;
@@ -160,11 +173,18 @@ export default function Immersive() {
   );
 
   const handleSelectSpace = useCallback(
-    (params?: Record<string, string>) => {
+    (params?: Record<string, string>, title?: string) => {
+      setHasInteracted(true);
       if (params) {
         setSpaceParams({ qs: "1", ...params });
         setView("pano");
       }
+      setLoadingSpace(title || "Espace Dynamo Fit");
+      if (loadingTimerRef.current) clearTimeout(loadingTimerRef.current);
+      loadingTimerRef.current = setTimeout(() => {
+        setLoadingSpace(null);
+      }, 2200);
+
       if (isMobile) {
         setOpen(false);
       }
@@ -173,8 +193,14 @@ export default function Immersive() {
   );
 
   const handleResetView = useCallback(() => {
+    setHasInteracted(true);
     setSpaceParams(null);
     setView("pano");
+    setLoadingSpace("Visite complète");
+    if (loadingTimerRef.current) clearTimeout(loadingTimerRef.current);
+    loadingTimerRef.current = setTimeout(() => {
+      setLoadingSpace(null);
+    }, 3000);
     if (isMobile) {
       setOpen(false);
     }
@@ -185,11 +211,17 @@ export default function Immersive() {
     setOpen(true);
   }, []);
 
+  const handleSelectExercise = useCallback((exercise: Exercise) => {
+    setSelectedExercise(exercise);
+  }, []);
+
   const tabContent = (
     <TabContent
       tab={tab}
       onScan={handleSelectSpace}
       onResetView={handleResetView}
+      onSelectExercise={handleSelectExercise}
+      selectedExercise={selectedExercise}
     />
   );
 
@@ -362,6 +394,18 @@ export default function Immersive() {
           </div>
         </div>
       )}
+
+      {/* Exercise Details Right Sidebar */}
+      {selectedExercise && (
+        <ExerciseDetailsSidebar
+          exercise={selectedExercise}
+          onClose={() => setSelectedExercise(null)}
+          isMobile={isMobile}
+        />
+      )}
+
+      {/* 3D Space Switching Transition Loader */}
+      <SpaceLoader isLoading={!!loadingSpace} spaceName={loadingSpace} />
 
       {/* Special Promotional Offer Modal Dialog */}
       <PromoDialog

@@ -378,57 +378,127 @@ export const options = [
   },
 ];
 
-export const plans = [
+export interface PlanRate {
+  label: string;
+  price: string;
+  period: string;
+  note?: string;
+}
+
+export interface Plan {
+  id: string;
+  name: string;
+  subtitle?: string;
+  price: string;
+  period: string;
+  badge?: string;
+  insuranceNote?: string;
+  tag?: string;
+  rates?: PlanRate[];
+  features: string[];
+  featured?: boolean;
+}
+
+export const plans: Plan[] = [
   {
-    name: "Offre Étudiant",
-    subtitle: "Entre 17 et 25 ans",
-    price: "199",
-    originalPrice: "",
-    period: "DH / mois",
-    badge: "17 - 25 ans",
-    discount: "",
-    tag: "Carte étudiant ou attestation scolaire obligatoire",
-    features: [
-      "Accès libre 7j/7 au club",
-      "Plateau Musculation & Cardio",
-      "Boxe & Ring inclus",
-      "Encadrement & ambiance motivante",
+    id: "muscu-cardio",
+    name: "Musculation & Cardio",
+    subtitle: "Accès libre aux plateaux machines & charges lourdes",
+    price: "300",
+    period: "DHS / mois",
+    badge: "Formule Club",
+    rates: [
+      { label: "1 Mois", price: "300", period: "DHS / mois" },
+      { label: "3 Mois", price: "750", period: "DHS / 3 mois", note: "250 DH/mois" },
+      { label: "6 Mois", price: "1400", period: "DHS / 6 mois", note: "233 DH/mois" },
+      { label: "12 Mois", price: "2500", period: "DHS / 12 mois", note: "208 DH/mois - Meilleur Tarif" },
     ],
-    featured: false,
-  },
-  {
-    name: "Offre Spéciale 3 Mois",
-    subtitle: "عرض خاص 3 أشهر · ابدأ رحلتك الآن",
-    price: "600",
-    originalPrice: "750",
-    period: "DH / 3 mois",
-    badge: "Offre Limitée",
-    discount: "-20%",
-    tag: "Force · Discipline · Évolution",
     features: [
-      "3 mois d'accès illimité complet",
-      "Équipements & machines de pointe",
-      "Encadrement & coaching pro",
-      "Ambiance intense & résultats garantis",
-      "Ring de combat & sacs de frappe",
+      "Plateau Musculation & charges libres Hammer Strength",
+      "Espace Cardio-Training haute performance",
+      "Formules au choix : 1, 3, 6 ou 12 mois",
+      "Vestiaires & douches inclus",
     ],
     featured: true,
   },
   {
-    name: "Offre Spéciale Annuelle",
-    subtitle: "عرض خاص · صالح لفترة محدودة",
-    price: "1500",
-    originalPrice: "3000",
-    period: "DH / an",
-    badge: "-50% Promo",
-    discount: "-50%",
-    tag: "Soit seulement 125 DH / mois !",
+    id: "arts-martiaux",
+    name: "Arts Martiaux",
+    subtitle: "MMA, Boxe Anglaise, Kickboxing...",
+    price: "200",
+    period: "DHS / mois",
+    badge: "Combat",
+    tag: "Une discipline au choix",
+    insuranceNote: "+ 100 DHS frais d'assurance (à payer uniquement le premier mois)",
     features: [
-      "Accès illimité 12 mois complets",
-      "Économisez 1500 DH sur l'année",
-      "Musculation 100% Hommes & Cardio",
-      "Boxe, Ring & Arts Martiaux inclus",
-      "Offre exclusive pour une durée limitée",
+      "1 discipline au choix : MMA, Boxe, Kickboxing...",
+      "Accès au ring de combat officiel & sacs de frappe",
+      "Coaching technique & sparring encadré",
+      "Tous niveaux acceptés, du débutant au confirmé",
+    ],
+    featured: false,
+  },
+  {
+    id: "femmes",
+    name: "Cours Collectifs 100% Femmes",
+    subtitle: "Séances exclusives réservées aux femmes",
+    price: "200",
+    period: "DHS / mois",
+    badge: "100% Femmes",
+    insuranceNote: "+ 100 DHS frais d'assurance (à payer uniquement le premier mois)",
+    features: [
+      "Espace & séances 100% réservés aux femmes",
+      "Fitness dynamique, renforcement & cardio",
+      "Coachs professionnelles & ambiance conviviale",
+      "Programmes variés et adaptés à vos objectifs",
+    ],
+    featured: false,
+  },
+  {
+    id: "gym-ballet",
+    name: "Gymnastique ou Ballet",
+    subtitle: "Gymnastique artistique ou danse classique",
+    price: "350",
+    period: "DHS / mois",
+    badge: "Kids & Adultes",
+    insuranceNote: "+ 150 DHS d'assurance (à payer uniquement le premier mois)",
+    features: [
+      "Discipline au choix : Gymnastique ou Ballet",
+      "Développement de la souplesse, grâce et motricité",
+      "Encadrement pédagogique qualifié et attentionné",
+      "Idéal pour enfants, ados et adultes",
+    ],
+    featured: false,
+  },
+  {
+    id: "yoga-pilates",
+    name: "Yoga & Pilates",
+    subtitle: "Renforcement profond, mobilité & sérénité",
+    price: "350",
+    period: "DHS / mois",
+    badge: "Zen & Posture",
+    insuranceNote: "+ 150 DHS d'assurance (à payer uniquement le premier mois)",
+    features: [
+      "Séances de Yoga postural et Pilates",
+      "Studio zen calme, tapis et accessoires fournis",
+      "Renforcement du tronc, respiration & décompression",
+      "Amélioration de la flexibilité et réduction du stress",
+    ],
+    featured: false,
+  },
+  {
+    id: "yoga-aerien",
+    name: "Yoga Aérien",
+    subtitle: "Pratique en suspension dans des hamacs",
+    price: "500",
+    period: "DHS / mois",
+    badge: "Exclusivité",
+    tag: "Ou 180 DHS / séance",
+    features: [
+      "Séances en apesanteur avec hamacs sécurisés",
+      "Décompression vertébrale & étirements profonds",
+      "Disponible en abonnement mensuel (500 DHS)",
+      "Possibilité de paiement à la séance (180 DHS)",
     ],
     featured: false,
   },
