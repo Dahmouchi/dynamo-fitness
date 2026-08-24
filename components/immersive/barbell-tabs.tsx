@@ -5,7 +5,7 @@ import type { TabId } from "./types";
 
 const tabs: { id: TabId; label: string; icon: typeof Box }[] = [
   { id: "club", label: "Club", icon: Box },
-  { id: "programme", label: "Programme", icon: Calendar },
+  { id: "programme", label: "Planning", icon: Calendar },
   { id: "options", label: "Exercices", icon: Dumbbell },
   { id: "abonnements", label: "Abonnements", icon: Ticket },
   { id: "infos", label: "Infos", icon: Info },
