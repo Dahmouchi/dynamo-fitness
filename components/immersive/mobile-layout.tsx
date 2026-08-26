@@ -59,7 +59,7 @@ export function MobileLayout({
             <X className="size-4" />
           </button>
         </div>
-        <div className="hide-scrollbar flex-1 overflow-y-auto p-4">
+        <div className="hide-scrollbar flex-1 overflow-y-auto p-2">
           {children}
         </div>
       </MobileBottomSheet>

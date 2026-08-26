@@ -320,8 +320,11 @@ export default function Immersive() {
 
       {/* Mobile Top Brand Dumbbell Header */}
       {isMobile && (
-        <div className="animate-slide-in-top absolute top-3 inset-x-0 z-30 flex justify-center">
-          <DumbbellHeader onClick={() => setPromoOpen(true)} />
+        <div className="animate-slide-in-top absolute top-2.5 sm:top-3 inset-x-0 z-50 flex justify-center pointer-events-auto">
+          <DumbbellHeader
+            onClick={() => setPromoOpen(true)}
+            className="scale-[0.88] sm:scale-95 md:scale-100 origin-top"
+          />
         </div>
       )}
       {/* Top toolbar — MOBILE ONLY 

@@ -640,12 +640,14 @@ export function TabContent({
                     >
                       <span>Afficher plus (+30)</span>
                       <span className="font-mono text-[11px] opacity-75">
-                        ({Math.min(visibleCount, filteredExercises.length)} / {filteredExercises.length})
+                        ({Math.min(visibleCount, filteredExercises.length)} /{" "}
+                        {filteredExercises.length})
                       </span>
                     </button>
                   ) : filteredExercises.length > 30 ? (
                     <p className="text-center text-[10px] text-muted-foreground pt-2">
-                      Tous les exercices ont été affichés ({filteredExercises.length} au total).
+                      Tous les exercices ont été affichés (
+                      {filteredExercises.length} au total).
                     </p>
                   ) : null}
                 </div>
