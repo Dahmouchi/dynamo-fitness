@@ -12,7 +12,6 @@ export function MobileBottomSheet({
   onClose: () => void;
   children: ReactNode;
 }) {
-  const sheetRef = useRef<HTMLDivElement>(null);
   const touchStart = useRef<number | null>(null);
 
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -22,15 +21,12 @@ export function MobileBottomSheet({
   const handleTouchEnd = (e: React.TouchEvent) => {
     if (touchStart.current === null) return;
     const delta = e.changedTouches[0].clientY - touchStart.current;
-    if (delta > 80) onClose(); // swipe down > 80px → dismiss
+    if (delta > 60) onClose(); // swipe down on drag handle → dismiss
     touchStart.current = null;
   };
 
   return (
     <div
-      ref={sheetRef}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
       className={`absolute inset-x-0 z-40 pb-8 flex flex-col rounded-t-2xl border-t border-border bg-background/95 backdrop-blur-2xl transition-all duration-400 ease-[cubic-bezier(0.32,0.72,0,1)] ${
         open
           ? "translate-y-0 opacity-100 visible"
@@ -42,8 +38,13 @@ export function MobileBottomSheet({
       }}
     >
       {/* Drag handle */}
-      <div className="flex justify-center py-2">
-        <span className="h-1 w-10 rounded-full bg-border" />
+      <div
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        className="flex cursor-grab justify-center py-3 touch-none select-none active:cursor-grabbing"
+        aria-label="Faire glisser vers le bas pour fermer"
+      >
+        <span className="h-1.5 w-12 rounded-full bg-border hover:bg-muted-foreground/50 transition-colors" />
       </div>
       {children}
     </div>

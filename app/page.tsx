@@ -24,7 +24,9 @@ export default function Immersive() {
   const [tab, setTab] = useState<TabId>("club");
   const [open, setOpen] = useState(false);
   const [promoOpen, setPromoOpen] = useState(false);
-  const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(null);
+  const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(
+    null,
+  );
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
   const [muted, setMuted] = useState(true);
@@ -129,6 +131,7 @@ export default function Immersive() {
       lang,
       ss: "9",
       sr: "-0.2, 0.8",
+      zoom: "1.0",
     });
     if (spaceParams) {
       Object.entries(spaceParams).forEach(([k, v]) => {

@@ -409,9 +409,24 @@ export const plans: Plan[] = [
     badge: "Formule Club",
     rates: [
       { label: "1 Mois", price: "300", period: "DHS / mois" },
-      { label: "3 Mois", price: "750", period: "DHS / 3 mois", note: "250 DH/mois" },
-      { label: "6 Mois", price: "1400", period: "DHS / 6 mois", note: "233 DH/mois" },
-      { label: "12 Mois", price: "2500", period: "DHS / 12 mois", note: "208 DH/mois - Meilleur Tarif" },
+      {
+        label: "3 Mois",
+        price: "750",
+        period: "DHS / 3 mois",
+        note: "250 DH/mois",
+      },
+      {
+        label: "6 Mois",
+        price: "1400",
+        period: "DHS / 6 mois",
+        note: "233 DH/mois",
+      },
+      {
+        label: "12 Mois",
+        price: "2500",
+        period: "DHS / 12 mois",
+        note: "208 DH/mois - Meilleur Tarif",
+      },
     ],
     features: [
       "Plateau Musculation & charges libres Hammer Strength",
@@ -429,7 +444,8 @@ export const plans: Plan[] = [
     period: "DHS / mois",
     badge: "Combat",
     tag: "Une discipline au choix",
-    insuranceNote: "+ 100 DHS frais d'assurance (à payer uniquement le premier mois)",
+    insuranceNote:
+      "+ 100 DHS frais d'assurance (à payer uniquement le premier mois)",
     features: [
       "1 discipline au choix : MMA, Boxe, Kickboxing...",
       "Accès au ring de combat officiel & sacs de frappe",
@@ -445,7 +461,8 @@ export const plans: Plan[] = [
     price: "200",
     period: "DHS / mois",
     badge: "100% Femmes",
-    insuranceNote: "+ 100 DHS frais d'assurance (à payer uniquement le premier mois)",
+    insuranceNote:
+      "+ 100 DHS frais d'assurance (à payer uniquement le premier mois)",
     features: [
       "Espace & séances 100% réservés aux femmes",
       "Fitness dynamique, renforcement & cardio",
