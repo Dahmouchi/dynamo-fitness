@@ -231,7 +231,7 @@ export default function Immersive() {
   return (
     <div
       ref={shellRef}
-      className="relative h-dvh lg:h-screen w-full overflow-hidden bg-background"
+      className="relative h-dvh w-full overflow-hidden bg-background select-none touch-none"
     >
       {/* 3D space */}
       <iframe
@@ -280,7 +280,8 @@ export default function Immersive() {
       {/* Desktop S'abonner CTA Button */}
       <button
         onClick={handleSubscribe}
-        className="barbell-tab animate-slide-in-bottom barbell-subscribe group hidden md:flex absolute bottom-3.5 right-3 xl:bottom-4 xl:right-8 z-20 cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-lime bg-lime px-3 py-2 sm:px-4 sm:py-2.5 xl:px-5 xl:py-3 text-lime-foreground shadow-[0_0_25px_oklch(0.85_0.2_128/0.35)] transition-all duration-300 hover:scale-105 active:scale-95 min-w-28 sm:min-w-32 xl:min-w-44"
+        className="barbell-tab animate-slide-in-bottom barbell-subscribe group hidden md:flex absolute right-2 sm:right-3 xl:right-8 z-20 cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-lime bg-lime px-3 py-2 sm:px-4 sm:py-2.5 xl:px-5 xl:py-3 text-lime-foreground shadow-[0_0_25px_oklch(0.85_0.2_128/0.35)] transition-all duration-300 hover:scale-105 active:scale-95 min-w-28 sm:min-w-32 xl:min-w-44"
+        style={{ bottom: "calc(0.875rem + env(safe-area-inset-bottom, 0px))" }}
       >
         {/* Speed-line streaks, sweep across on a loop */}
         <span className="speed-line speed-line-1" />
@@ -303,7 +304,10 @@ export default function Immersive() {
           rel="noopener noreferrer"
           title="Visite virtuelle 3D réalisée par BUILD360"
           aria-label="Visite virtuelle 3D réalisée par BUILD360"
-          className="group absolute left-3 bottom-3.5 xl:left-4 xl:bottom-4 z-20 hidden md:flex items-center gap-1.5 sm:gap-2 rounded-full border border-zinc-800/80 bg-background/85 px-2.5 py-1 sm:px-3 sm:py-1.5 shadow-[0_4px_20px_rgba(0,0,0,0.6)] backdrop-blur-xl transition-all duration-300 hover:scale-105 hover:border-lime/60 hover:shadow-[0_0_15px_oklch(0.85_0.2_128/0.25)]"
+          className="group absolute left-2 sm:left-3 xl:left-4 z-20 hidden md:flex items-center gap-1.5 sm:gap-2 rounded-full border border-zinc-800/80 bg-background/85 px-2.5 py-1 sm:px-3 sm:py-1.5 shadow-[0_4px_20px_rgba(0,0,0,0.6)] backdrop-blur-xl transition-all duration-300 hover:scale-105 hover:border-lime/60 hover:shadow-[0_0_15px_oklch(0.85_0.2_128/0.25)]"
+          style={{
+            bottom: "calc(0.875rem + env(safe-area-inset-bottom, 0px))",
+          }}
         >
           <span className="text-[8px] sm:text-[9px] font-bold uppercase tracking-widest text-muted-foreground transition-colors group-hover:text-foreground">
             Powered by
@@ -389,7 +393,12 @@ export default function Immersive() {
 
       {/* Desktop Permanent Barbell Tabs (Always displayed at bottom even when sidebar is closed) */}
       {!isMobile && (
-        <div className="pointer-events-none absolute inset-x-0 bottom-3.5 xl:bottom-4 z-40 flex justify-center">
+        <div
+          className="pointer-events-none absolute inset-x-0 z-40 flex justify-center"
+          style={{
+            bottom: "calc(0.875rem + env(safe-area-inset-bottom, 0px))",
+          }}
+        >
           <div className="pointer-events-auto animate-slide-in-bottom">
             <BarbellTabs
               tab={tab}

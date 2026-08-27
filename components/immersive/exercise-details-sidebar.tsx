@@ -86,14 +86,15 @@ export function ExerciseDetailsSidebar({
       <aside
         className={`z-50 flex flex-col border border-zinc-800/90 bg-background/95 backdrop-blur-2xl transition-all duration-300 ${
           isMobile
-            ? "fixed inset-x-3 bottom-3 top-16 max-h-[82vh] rounded-2xl"
+            ? "fixed inset-x-3 bottom-3 top-16 max-h-[82dvh] rounded-2xl"
             : "absolute right-3 xl:right-4 top-20 w-84 lg:w-96 rounded-2xl"
         }`}
         style={
           !isMobile
             ? {
-                height: "calc(100vh - 160px)",
-                maxHeight: "calc(100vh - 180px)",
+                height: "calc(100dvh - 160px - env(safe-area-inset-bottom, 0px))",
+                maxHeight:
+                  "calc(100dvh - 180px - env(safe-area-inset-bottom, 0px))",
               }
             : undefined
         }

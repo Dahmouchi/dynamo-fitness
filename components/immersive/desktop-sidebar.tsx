@@ -47,7 +47,12 @@ export function DesktopSidebar({
             ? "translate-y-0 opacity-100 scale-y-100 pointer-events-auto"
             : "-translate-y-6 opacity-0 scale-y-95 pointer-events-none overflow-hidden"
         }`}
-        style={{ height: open ? "calc(100vh - 160px)" : 0, maxHeight: "calc(100vh - 160px)" }}
+        style={{
+          height: open
+            ? "calc(100dvh - 155px - env(safe-area-inset-bottom, 0px))"
+            : 0,
+          maxHeight: "calc(100dvh - 155px - env(safe-area-inset-bottom, 0px))",
+        }}
       >
         {/* ---- Header with active section title + close button ---- */}
         <div className="flex items-center justify-between border-b border-border/80 px-4 py-2.5 bg-card/50 rounded-t-2xl shrink-0">

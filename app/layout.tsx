@@ -36,6 +36,8 @@ export default function RootLayout({
       className={cn(
         "dark",
         "h-full",
+        "h-dvh",
+        "overflow-hidden",
         "antialiased",
         geistSans.variable,
         geistMono.variable,
@@ -44,7 +46,9 @@ export default function RootLayout({
         "font-sans",
       )}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="h-dvh w-full overflow-hidden flex flex-col fixed inset-0">
+        {children}
+      </body>
     </html>
   );
 }
