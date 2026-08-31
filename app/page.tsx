@@ -231,16 +231,15 @@ export default function Immersive() {
   return (
     <div
       ref={shellRef}
-      className="relative h-dvh w-full overflow-hidden bg-background select-none touch-none"
+      className="relative h-dvh w-full overflow-hidden bg-background"
     >
       {/* 3D space */}
       <iframe
-        key={src}
-        title="Visite virtuelle 3D du club Dynamo Fit"
+        title="Visite virtuelle 3D du Showroom Mercedes-Benz"
         src={src}
-        allow="xr-spatial-tracking; fullscreen; autoplay"
+        allow="xr-spatial-tracking; fullscreen; autoplay; vr; accelerometer; gyroscope"
         allowFullScreen
-        className="absolute inset-0 h-full w-full border-0"
+        className="absolute inset-0 h-full w-full border-0 "
       />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_-10%,transparent_40%,oklch(0.13_0.008_260/0.75))]" />
 
