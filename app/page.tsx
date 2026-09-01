@@ -241,8 +241,6 @@ export default function Immersive() {
         allowFullScreen
         className="absolute inset-0 h-full w-full border-0 "
       />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_-10%,transparent_40%,oklch(0.13_0.008_260/0.75))]" />
-
       {/* Interactive 3D Guide Overlay Indicator (Disappears on first click and starts music) */}
       {!hasInteracted && (
         <div
