@@ -34,7 +34,7 @@ export function MobileBottomSheet({
       }`}
       style={{
         top: "15%",
-        bottom: "calc(64px + env(safe-area-inset-bottom, 0px))",
+        bottom: "60px",
       }}
     >
       {/* Drag handle */}
