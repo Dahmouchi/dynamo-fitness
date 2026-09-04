@@ -256,7 +256,7 @@ export function PlanningCalendarDialog({
                         {dayGroup.day}
                       </h3>
                       {isToday && (
-                        <span className="rounded-full bg-lime px-1.5 py-0.5 text-[8.5px] font-black uppercase tracking-widest text-lime-foreground shadow-[0_0_8px_oklch(0.85_0.2_128/0.4)]">
+                        <span className="rounded-full lg:block hidden bg-lime px-1.5 py-0.5 text-[8.5px] font-black uppercase tracking-widest text-lime-foreground shadow-[0_0_8px_oklch(0.85_0.2_128/0.4)]">
                           Aujourd&apos;hui
                         </span>
                       )}
