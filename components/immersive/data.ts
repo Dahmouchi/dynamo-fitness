@@ -11,7 +11,8 @@ export const spaces: Space[] = [
   {
     id: "bodybuilding",
     title: "Musculation",
-    image: "/assets/gym.jpg",
+    image:
+      "https://my.matterport.com/resources/model/BV51UNAki75/image/aq7BJtNyj1f",
     description: "Machines pro Hammer Strength et charges libres.",
     equipment: [
       "Charges libres",
@@ -28,7 +29,8 @@ export const spaces: Space[] = [
   {
     id: "cardio",
     title: "Cardio",
-    image: "/assets/gym.jpg",
+    image:
+      "https://my.matterport.com/resources/model/BV51UNAki75/image/VEd2XYyxCvn",
     description: "Équipements cardio et endurance haute intensité.",
     equipment: ["Tapis de course", "Racks squat", "Haltères lourds"],
     params: {
@@ -40,7 +42,8 @@ export const spaces: Space[] = [
   {
     id: "yoga-pilates",
     title: "Yoga & Pilates Studio",
-    image: "/assets/apprendre-yoga.jpeg",
+    image:
+      "https://my.matterport.com/resources/model/BV51UNAki75/image/TFSz5FtBbpv",
     description: "Studio zen dédié au yoga, pilates et stretching.",
     equipment: ["Tapis yoga", "Blocs & sangles", "Reformer", "Ambiance zen"],
     params: {
@@ -52,7 +55,8 @@ export const spaces: Space[] = [
   {
     id: "kickboxing-ring",
     title: "Ring de Kickboxing",
-    image: "/assets/kick.webp",
+    image:
+      "https://my.matterport.com/resources/model/BV51UNAki75/image/QwjeTHgSjqu",
     description: "Ring officiel pour sparring et entraînements intensifs.",
     equipment: [
       "Ring surélevé",
@@ -69,7 +73,8 @@ export const spaces: Space[] = [
   {
     id: "kickboxing-materiel",
     title: "Espace Matériel Kickboxing",
-    image: "/assets/kick2.jpg",
+    image:
+      "https://my.matterport.com/resources/model/BV51UNAki75/image/CXWHmwWknvB",
     description: "Sacs de frappe lourds, paos et boucliers de frappe.",
     equipment: [
       "Sacs de frappe lourds",
@@ -86,7 +91,8 @@ export const spaces: Space[] = [
   {
     id: "martial-arts-kids",
     title: "MMA, Taekwondo, Aïkido & Kids",
-    image: "/assets/mma.webp",
+    image:
+      "https://my.matterport.com/resources/model/BV51UNAki75/image/u74kxDvCvxi",
     description: "Cage MMA, dojang, tatamis et zone motricité enfants.",
     equipment: [
       "Section cage & tatamis",

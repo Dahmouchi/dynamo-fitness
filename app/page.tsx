@@ -14,6 +14,7 @@ import { SpaceLoader } from "@/components/immersive/space-loader";
 import { SocialMedia } from "@/components/immersive/social-media";
 import { MobileSocialMedia } from "@/components/immersive/mobile-social-media";
 import { ExerciseDetailsSidebar } from "@/components/immersive/exercise-details-sidebar";
+import { MobileZoomHint } from "@/components/immersive/mobile-zoom-hint";
 import type { Exercise } from "@/lib/exercise-api";
 import { MousePointerClick, Music, Zap } from "lucide-react";
 
@@ -28,6 +29,7 @@ export default function Immersive() {
     null,
   );
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
+  const [showNavigationHints, setShowNavigationHints] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
   const [muted, setMuted] = useState(true);
   const [lang, setLang] = useState<"fr" | "en">("fr");
@@ -66,6 +68,7 @@ export default function Immersive() {
 
   const handleStartInteraction = useCallback(() => {
     setHasInteracted(true);
+    setShowNavigationHints(true);
     if (audioRef.current && audioRef.current.paused) {
       audioRef.current
         .play()
@@ -125,8 +128,8 @@ export default function Immersive() {
   const src = useMemo(() => {
     const p = new URLSearchParams({
       m: MODEL_ID,
-      play: hasInteracted ? "1" : "0",
-      qs: "0",
+      play: "1",
+      qs: "1",
       brand: "0",
       lang,
       ss: "9",
@@ -273,6 +276,12 @@ export default function Immersive() {
           </div>
         </div>
       )}
+
+      {/* 3D Navigation Hints (Swipe, Click, Zoom) for Mobile & Desktop */}
+      {showNavigationHints && (
+        <MobileZoomHint onComplete={() => setShowNavigationHints(false)} />
+      )}
+
       {/* Desktop S'abonner CTA Button */}
       <button
         onClick={handleSubscribe}
