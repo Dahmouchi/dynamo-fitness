@@ -6,6 +6,7 @@ import {
   Maximize2,
   Phone,
   Calendar,
+  CalendarDays,
   Swords,
   Shield,
   HandFist,
@@ -21,6 +22,7 @@ import {
 import type { LucideIcon } from "lucide-react";
 import { spaces, programme, options, plans, hours } from "./data";
 import { SectionTitle, Panel, Pill } from "./ui";
+import { PlanningCalendarDialog } from "./planning-calendar-dialog";
 import type { TabId } from "./types";
 import {
   fetchExercises,
@@ -41,47 +43,74 @@ interface TabContentProps {
 
 const categoryStyles: Record<
   string,
-  { bg: string; text: string; border: string; label: string; icon: LucideIcon }
+  {
+    bg: string;
+    border: string;
+    cardBg: string;
+    cardText: string;
+    subText: string;
+    timeBg: string;
+    label: string;
+    icon: LucideIcon;
+  }
 > = {
   taekwondo: {
-    bg: "bg-blue-500/15",
-    text: "text-blue-400",
-    border: "border-blue-500/30",
+    bg: "bg-blue-600",
+    border: "border-blue-400/50",
+    cardBg: "bg-blue-600 hover:bg-blue-500",
+    cardText: "text-white",
+    subText: "text-blue-100",
+    timeBg: "bg-black/25 text-white",
     label: "Taekwondo",
     icon: Swords,
   },
   jjb: {
-    bg: "bg-amber-500/15",
-    text: "text-amber-300",
-    border: "border-amber-500/30",
+    bg: "bg-amber-600",
+    border: "border-amber-400/50",
+    cardBg: "bg-amber-600 hover:bg-amber-500",
+    cardText: "text-white",
+    subText: "text-amber-100",
+    timeBg: "bg-black/25 text-white",
     label: "JJB",
     icon: Shield,
   },
   mma: {
-    bg: "bg-red-500/15",
-    text: "text-red-400",
-    border: "border-red-500/30",
+    bg: "bg-red-600",
+    border: "border-red-400/50",
+    cardBg: "bg-red-600 hover:bg-red-500",
+    cardText: "text-white",
+    subText: "text-red-100",
+    timeBg: "bg-black/25 text-white",
     label: "MMA",
     icon: HandFist,
   },
   kickboxing: {
-    bg: "bg-sky-500/15",
-    text: "text-sky-400",
-    border: "border-sky-500/30",
+    bg: "bg-sky-600",
+    border: "border-sky-400/50",
+    cardBg: "bg-sky-600 hover:bg-sky-500",
+    cardText: "text-white",
+    subText: "text-sky-100",
+    timeBg: "bg-black/25 text-white",
     label: "Kickboxing",
     icon: Flame,
   },
   boxing: {
-    bg: "bg-cyan-500/15",
-    text: "text-cyan-400",
-    border: "border-cyan-500/30",
+    bg: "bg-cyan-600",
+    border: "border-cyan-400/50",
+    cardBg: "bg-cyan-600 hover:bg-cyan-500",
+    cardText: "text-white",
+    subText: "text-cyan-100",
+    timeBg: "bg-black/25 text-white",
     label: "Boxe",
     icon: Target,
   },
   fitness: {
-    bg: "bg-lime/15",
-    text: "text-lime",
-    border: "border-lime/30",
+    bg: "bg-lime",
+    border: "border-lime-400/60",
+    cardBg: "bg-lime hover:bg-lime/90",
+    cardText: "text-zinc-950",
+    subText: "text-zinc-800",
+    timeBg: "bg-black/15 text-zinc-950",
     label: "Conditioning",
     icon: Dumbbell,
   },
@@ -95,6 +124,7 @@ export function TabContent({
   selectedExercise,
 }: TabContentProps) {
   const [selectedDay, setSelectedDay] = useState<string>("all");
+  const [showCalendarDialog, setShowCalendarDialog] = useState(false);
   const [selectedRates, setSelectedRates] = useState<Record<string, number>>(
     {},
   );
@@ -211,7 +241,7 @@ export function TabContent({
               <button
                 key={s.id}
                 onClick={() => onScan(s.params, s.title)}
-                className="group relative block cursor-pointer w-full overflow-hidden rounded-xl border border-border text-left transition hover:border-lime/60"
+                className="group relative block cursor-pointer w-full min-h-48 overflow-hidden rounded-xl border border-border text-left transition hover:border-lime/60"
               >
                 <img
                   src={s.image}
@@ -219,22 +249,21 @@ export function TabContent({
                   loading="lazy"
                   width={800}
                   height={600}
-                  className="absolute inset-0 h-full w-full object-cover opacity-45 transition duration-500 group-hover:scale-105 group-hover:opacity-60"
+                  className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105 group-hover:opacity-60"
                 />
-                <div className="relative bg-linear-to-r from-background/95 via-background/70 to-transparent p-4 md:p-5">
-                  <h3 className="skew-title text-lg md:text-xl">{s.title}</h3>
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-lime md:text-[11px]">
-                    Visite 3D
-                  </span>
-                  <p className="mt-2 max-w-[16rem] text-xs text-muted-foreground md:mt-3 md:text-sm">
-                    {s.description}
-                  </p>
-                  <div className="mt-2 flex flex-wrap gap-1 md:mt-3 md:gap-1.5">
-                    {s.equipment.slice(0, 3).map((e) => (
-                      <Pill key={e}>{e}</Pill>
-                    ))}
+                <div className="relative flex h-full min-h-48 flex-col justify-between bg-linear-to-r from-background/95 via-background/25 to-transparent p-5 md:p-6">
+                  <div>
+                    <h3 className="skew-title text-xl md:text-2xl font-black">
+                      {s.title}
+                    </h3>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-lime md:text-[11px]">
+                      Visite 3D
+                    </span>
+                    <p className="mt-3 max-w-[17rem] text-xs text-white line-clamp-2 md:text-sm leading-relaxed">
+                      {s.description}
+                    </p>
                   </div>
-                  <span className="absolute bottom-3 right-3 flex size-8 items-center justify-center rounded-full bg-lime text-lime-foreground transition group-hover:translate-x-1 md:bottom-4 md:right-4 md:size-10">
+                  <span className="absolute bottom-4 right-4 flex size-9 sm:size-10 items-center justify-center rounded-full bg-lime text-lime-foreground shadow-[0_0_15px_oklch(0.85_0.2_128/0.4)] transition group-hover:translate-x-1.5 active:scale-95">
                     <ChevronRight className="size-4 md:size-5" />
                   </span>
                 </div>
@@ -246,10 +275,21 @@ export function TabContent({
 
       {tab === "programme" && (
         <Panel>
-          <SectionTitle
-            title="Arts Martiaux"
-            subtitle="Planning hebdomadaire"
-          />
+          <div className="flex items-center justify-between gap-2 border-b border-border pb-3">
+            <div className="flex items-end gap-3">
+              <h2 className="skew-title text-xl leading-none md:text-2xl">
+                Arts Martiaux
+              </h2>
+            </div>
+
+            <button
+              onClick={() => setShowCalendarDialog(true)}
+              className="group flex shrink-0 cursor-pointer items-center gap-1.5 rounded-xl border border-lime/40 bg-lime/10 px-2.5 py-1.5 text-[11px] font-bold text-lime transition-all duration-200 hover:scale-105 hover:bg-lime hover:text-lime-foreground active:scale-95 sm:px-3 sm:py-2 sm:text-xs"
+            >
+              <CalendarDays className="size-3.5 sm:size-4 transition-transform group-hover:rotate-6" />
+              <span>Vue Calendrier</span>
+            </button>
+          </div>
 
           {/* Day Filter Chips */}
           <div className="no-scrollbar -mx-1 mb-5 flex gap-1.5 overflow-x-auto px-1 pb-1 pt-0.5">
@@ -290,15 +330,8 @@ export function TabContent({
 
           {/* Schedule Grid */}
           <div className="space-y-6">
-            {filteredProgramme.map((day, dayIdx) => (
-              <div
-                key={day.day}
-                className="animate-in fade-in-0 slide-in-from-bottom-2"
-                style={{
-                  animationDelay: `${dayIdx * 60}ms`,
-                  animationFillMode: "backwards",
-                }}
-              >
+            {filteredProgramme.map((day) => (
+              <div key={day.day}>
                 {/* Day Header */}
                 <div className="mb-3 flex items-center gap-3">
                   <div className="flex size-8 items-center justify-center rounded-lg bg-lime/10 text-lime">
@@ -316,7 +349,7 @@ export function TabContent({
 
                 {/* Session Cards */}
                 <div className="space-y-1.5">
-                  {day.items.map((it, idx) => {
+                  {day.items.map((it) => {
                     const style =
                       it.category && categoryStyles[it.category]
                         ? categoryStyles[it.category]
@@ -324,69 +357,46 @@ export function TabContent({
                     return (
                       <div
                         key={it.n + it.t + day.day}
-                        className="group relative overflow-hidden rounded-xl border border-border/60 bg-card/50 backdrop-blur-sm transition-all duration-300 hover:border-border hover:bg-card/80 hover:shadow-lg"
-                        style={{
-                          animationDelay: `${dayIdx * 60 + idx * 40}ms`,
-                          animationFillMode: "backwards",
-                        }}
+                        className={`group relative overflow-hidden rounded-xl border p-2.5 sm:p-3 transition-transform duration-150 shadow-md ${
+                          style
+                            ? `${style.cardBg} ${style.border}`
+                            : "bg-card/50 border-border/60"
+                        } hover:scale-[1.015]`}
                       >
-                        {/* Left Category Accent Bar */}
-                        {style && (
-                          <div
-                            className={`absolute left-0 top-0 h-full w-0.75 ${style.bg.replace("/15", "")} opacity-80`}
-                            style={{
-                              background: `var(--tw-gradient-from, currentColor)`,
-                            }}
-                          />
-                        )}
-
-                        <div className="flex items-center gap-3 px-3.5 py-2.5 pl-4">
-                          {/* Category Icon
-                          {style && (
-                            <div
-                              className={`flex size-8 shrink-0 items-center justify-center rounded-lg ${style.bg} ${style.text}`}
+                        <div className="flex flex-col gap-1 sm:gap-1.5">
+                          {/* Course Title & Time */}
+                          <div className="flex items-center justify-between gap-2">
+                            <p
+                              className={`truncate text-sm font-black ${
+                                style ? style.cardText : "text-foreground"
+                              }`}
                             >
-                              <style.icon
-                                className="size-4"
-                                strokeWidth={2.5}
-                              />
-                            </div>
-                          )} */}
-
-                          {/* Info Block */}
-                          <div className="min-w-0 flex-1">
-                            <div className="flex items-center gap-2">
-                              <p className="truncate text-[13px] font-bold text-foreground">
-                                {it.n}
-                              </p>
-                              {style && (
-                                <span
-                                  className={`hidden shrink-0 rounded-md px-1.5 py-px text-[8px] font-extrabold uppercase tracking-wider sm:inline-block ${style.bg} ${style.text}`}
-                                >
-                                  {style.label}
-                                </span>
-                              )}
-                            </div>
-                            <div className="mt-0.5 flex items-center gap-1.5 text-[10px] text-muted-foreground">
-                              <Clock className="size-2.5 opacity-50" />
-                              <span className="font-mono font-semibold">
-                                {it.t}
-                              </span>
-                              <span className="opacity-30">·</span>
-                              <span>{it.c}</span>
-                              <span className="opacity-30">·</span>
-                              <span>{it.d}</span>
-                            </div>
+                              {it.n}
+                            </p>
+                            <span
+                              className={`shrink-0 inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 font-mono text-[10px] font-bold ${
+                                style ? style.timeBg : "bg-black/30 text-white"
+                              }`}
+                            >
+                              <Clock className="size-2.5 opacity-80" />
+                              {it.t}
+                            </span>
                           </div>
 
-                          {/* Mobile Category Badge */}
-                          {style && (
-                            <span
-                              className={`shrink-0 rounded-md px-1.5 py-0.5 text-[8px] font-extrabold uppercase tracking-wider sm:hidden ${style.bg} ${style.text}`}
-                            >
-                              {style.label}
+                          {/* Location & Duration */}
+                          <div
+                            className={`flex items-center justify-between text-[11px] pt-1 border-t border-black/10 ${
+                              style ? style.subText : "text-muted-foreground"
+                            }`}
+                          >
+                            <span className="flex items-center gap-1 truncate font-medium">
+                              <MapPin className="size-2.5 shrink-0 opacity-80" />
+                              <span className="truncate">{it.c}</span>
                             </span>
-                          )}
+                            <span className="shrink-0 font-bold opacity-90 text-[10px]">
+                              {it.d}
+                            </span>
+                          </div>
                         </div>
                       </div>
                     );
@@ -404,7 +414,7 @@ export function TabContent({
             {Object.entries(categoryStyles).map(([key, s]) => (
               <span
                 key={key}
-                className={`flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[9px] font-bold ${s.bg} ${s.text}`}
+                className={`flex items-center gap-1 rounded-md px-2 py-0.5 text-[10px] font-black uppercase tracking-wider ${s.bg} ${s.cardText}`}
               >
                 <s.icon className="size-3" strokeWidth={2.5} />
                 {s.label}
@@ -864,6 +874,12 @@ export function TabContent({
           </div>
         </Panel>
       )}
+
+      {/* Full Weekly Planning Calendar Dialog */}
+      <PlanningCalendarDialog
+        open={showCalendarDialog}
+        onClose={() => setShowCalendarDialog(false)}
+      />
     </>
   );
 }

@@ -579,3 +579,24 @@
     -webkit-text-stroke-color: rgba(163, 255, 18, 0.35);
   }
 }
+
+/* Custom Black / Dark Scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #27272a #000000; /* thumb track */
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+::-webkit-scrollbar-thumb {
+  background: #27272a;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3f3f46;
+}

@@ -247,12 +247,11 @@ export default function Immersive() {
           onClick={handleStartInteraction}
           className="animate-fade-in absolute inset-0 z-20 flex cursor-pointer items-center justify-center bg-black/25 backdrop-blur-[2px] transition-all duration-500 hover:bg-black/15"
         >
-          <div className="animate-fade-in-scale group/guide relative flex flex-col items-center gap-3 rounded-2xl border-2 border-lime/60 bg-background/90 px-6 py-4.5 text-center shadow-[0_0_35px_oklch(0.85_0.2_128/0.4)] backdrop-blur-2xl transition-all duration-300 hover:scale-105 hover:border-lime">
+          <div className="animate-fade-in-scale group/guide relative flex flex-col items-center gap-3 rounded-2xl border-2 border-lime/60 bg-background/90 px-6 py-4.5 text-center backdrop-blur-2xl transition-all duration-300 hover:scale-105 hover:border-lime">
             {/* Ambient pulsing ring */}
-            <div className="pointer-events-none absolute -inset-2 rounded-3xl bg-lime/20 blur-xl animate-pulse" />
 
             {/* Top Icon Badge */}
-            <div className="relative flex size-12 items-center justify-center rounded-xl border border-lime bg-lime/20 text-lime shadow-[0_0_15px_oklch(0.85_0.2_128/0.5)]">
+            <div className="relative flex size-12 items-center justify-center rounded-xl border border-lime bg-lime/20 text-lime ">
               <MousePointerClick className="size-6 animate-bounce text-lime" />
             </div>
 
@@ -277,7 +276,7 @@ export default function Immersive() {
       {/* Desktop S'abonner CTA Button */}
       <button
         onClick={handleSubscribe}
-        className="barbell-tab animate-slide-in-bottom barbell-subscribe group hidden md:flex absolute right-2 sm:right-3 xl:right-8 z-20 cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-lime bg-lime px-3 py-2 sm:px-4 sm:py-2.5 xl:px-5 xl:py-3 text-lime-foreground shadow-[0_0_25px_oklch(0.85_0.2_128/0.35)] transition-all duration-300 hover:scale-105 active:scale-95 min-w-28 sm:min-w-32 xl:min-w-44"
+        className="barbell-tab animate-slide-in-bottom barbell-subscribe group hidden md:flex absolute right-2 sm:right-3 xl:right-2 z-20 cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-lime bg-lime px-3 py-2 sm:px-4 sm:py-2.5 xl:px-5 xl:py-3 text-lime-foreground shadow-[0_0_25px_oklch(0.85_0.2_128/0.35)] transition-all duration-300 hover:scale-105 active:scale-95 min-w-28 sm:min-w-32 xl:min-w-44"
         style={{ bottom: "calc(0.875rem + env(safe-area-inset-bottom, 0px))" }}
       >
         {/* Speed-line streaks, sweep across on a loop */}
@@ -312,7 +311,7 @@ export default function Immersive() {
           <img
             src="/assets/logov1white.png"
             alt="BUILD360"
-            className="h-4 sm:h-5 xl:h-6 w-auto object-contain opacity-80 transition-opacity group-hover:opacity-100"
+            className="h-4 sm:h-5 xl:h-8 w-auto object-contain opacity-80 transition-opacity group-hover:opacity-100"
             width={85}
             height={20}
           />
@@ -321,7 +320,7 @@ export default function Immersive() {
 
       {/* Mobile Top Brand Dumbbell Header */}
       {isMobile && (
-        <div className="animate-slide-in-top absolute top-2.5 sm:top-3 inset-x-0 z-50 flex justify-center pointer-events-auto">
+        <div className="animate-slide-in-top bg-black/30 absolute top-0 pt-2 backdrop-blur-sm inset-x-0 z-50 flex justify-center pointer-events-auto">
           <DumbbellHeader
             onClick={() => setPromoOpen(true)}
             className="scale-[0.88] sm:scale-95 md:scale-100 origin-top"

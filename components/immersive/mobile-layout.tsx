@@ -66,7 +66,7 @@ export function MobileLayout({
 
       {/* Enhanced Floating Mobile Barbell Bottom Navigation Bar with Centered Elevated Notch */}
       <nav
-        className="animate-slide-in-bottom-dock absolute inset-x-0 bottom-0 z-40 overflow-visible border border-zinc-700/80 bg-background/90 px-1 pt-2 pb-1.5  backdrop-blur-2xl"
+        className="animate-slide-in-bottom-dock absolute inset-x-0 bottom-0 z-40 overflow-visible bg-background/90 px-1 pt-2 pb-1.5  backdrop-blur-2xl"
         aria-label="Navigation mobile principale"
       >
         {/* Center Elevated Notch: S'ABONNER */}

@@ -12,8 +12,7 @@ export const spaces: Space[] = [
     id: "bodybuilding",
     title: "Musculation",
     image: "/assets/gym.jpg",
-    description:
-      "Zone musculation : charges lourdes, machines pro Hammer Strength et ambiance intense.",
+    description: "Machines pro Hammer Strength et charges libres.",
     equipment: [
       "Charges libres",
       "Machines Hammer",
@@ -30,7 +29,7 @@ export const spaces: Space[] = [
     id: "cardio",
     title: "Cardio",
     image: "/assets/gym.jpg",
-    description: "Zone Cardio : Machines pro et ambiance intense.",
+    description: "Équipements cardio et endurance haute intensité.",
     equipment: ["Tapis de course", "Racks squat", "Haltères lourds"],
     params: {
       ss: "6",
@@ -42,8 +41,7 @@ export const spaces: Space[] = [
     id: "yoga-pilates",
     title: "Yoga & Pilates Studio",
     image: "/assets/apprendre-yoga.jpeg",
-    description:
-      "Studio calme et lumineux pour vos séances de yoga, pilates et stretching, avec tapis et accessoires fournis.",
+    description: "Studio zen dédié au yoga, pilates et stretching.",
     equipment: ["Tapis yoga", "Blocs & sangles", "Reformer", "Ambiance zen"],
     params: {
       ss: "68",
@@ -55,8 +53,7 @@ export const spaces: Space[] = [
     id: "kickboxing-ring",
     title: "Ring de Kickboxing",
     image: "/assets/kick.webp",
-    description:
-      "Ring de combat officiel pour entraînements intensifs, sparring, perfectionnement technique et préparation physique.",
+    description: "Ring officiel pour sparring et entraînements intensifs.",
     equipment: [
       "Ring surélevé",
       "Coins de ring",
@@ -73,8 +70,7 @@ export const spaces: Space[] = [
     id: "kickboxing-materiel",
     title: "Espace Matériel Kickboxing",
     image: "/assets/kick2.jpg",
-    description:
-      "Zone d'équipement complet : rangée de sacs de frappe lourds, paos, boucliers de frappe et racks de protections.",
+    description: "Sacs de frappe lourds, paos et boucliers de frappe.",
     equipment: [
       "Sacs de frappe lourds",
       "Paos & Boucliers",
@@ -91,8 +87,7 @@ export const spaces: Space[] = [
     id: "martial-arts-kids",
     title: "MMA, Taekwondo, Aïkido & Kids",
     image: "/assets/mma.webp",
-    description:
-      "Espace polyvalent dédié aux arts martiaux et aux jeunes : cage MMA, Dojang Taekwondo, Tatami Aïkido et parcours motricité / gymnastique enfants.",
+    description: "Cage MMA, dojang, tatamis et zone motricité enfants.",
     equipment: [
       "Section cage & tatamis",
       "Dojang Taekwondo",
