@@ -94,17 +94,6 @@ const categoryMeta: Record<
     label: "Boxe",
     icon: Target,
   },
-  fitness: {
-    bg: "bg-lime hover:bg-lime/90",
-    border: "border-lime-400/60",
-    text: "text-lime",
-    badgeBg: "bg-lime text-lime-foreground font-black",
-    cardText: "text-zinc-950",
-    subText: "text-zinc-800",
-    timeBg: "bg-black/15 text-zinc-950",
-    label: "Conditioning",
-    icon: Dumbbell,
-  },
 };
 
 export function PlanningCalendarDialog({

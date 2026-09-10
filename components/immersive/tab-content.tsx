@@ -20,7 +20,15 @@ import {
   X,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { spaces, programme, options, plans, hours } from "./data";
+import {
+  spaces,
+  programme,
+  options,
+  plans,
+  hours,
+  clubProgrammes,
+  specialSchedules,
+} from "./data";
 import { SectionTitle, Panel, Pill } from "./ui";
 import { PlanningCalendarDialog } from "./planning-calendar-dialog";
 import type { TabId } from "./types";
@@ -103,16 +111,6 @@ const categoryStyles: Record<
     timeBg: "bg-black/25 text-white",
     label: "Boxe",
     icon: Target,
-  },
-  fitness: {
-    bg: "bg-lime",
-    border: "border-lime-400/60",
-    cardBg: "bg-lime hover:bg-lime/90",
-    cardText: "text-zinc-950",
-    subText: "text-zinc-800",
-    timeBg: "bg-black/15 text-zinc-950",
-    label: "Conditioning",
-    icon: Dumbbell,
   },
 };
 
@@ -834,7 +832,7 @@ export function TabContent({
             {/* Hours */}
             <div className="rounded-xl border border-border bg-card/60 p-3.5 md:p-4">
               <h3 className="mb-2.5 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-lime md:mb-3">
-                <Clock className="size-3.5" /> Horaires
+                <Clock className="size-3.5" /> Horaires d&apos;Ouverture Club
               </h3>
               <ul className="space-y-1.5 md:space-y-2">
                 {hours.map((h) => (
@@ -848,22 +846,63 @@ export function TabContent({
                 ))}
               </ul>
             </div>
+
+            {/* Horaires Spécifiques des Cours */}
+            <div className="rounded-xl border border-lime/40 bg-gradient-to-b from-lime/10 via-card/70 to-card/70 p-3.5 md:p-4 shadow-sm">
+              <div className="mb-3 flex items-center justify-between">
+                <h3 className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-lime md:text-xs">
+                  <Swords className="size-3.5 text-lime" /> Horaires des Cours
+                </h3>
+                <span className="rounded-full bg-lime/20 px-2 py-0.5 text-[9px] font-black uppercase text-lime">
+                  Combats & Kids
+                </span>
+              </div>
+              <div className="space-y-2">
+                {specialSchedules.map((item) => (
+                  <div
+                    key={item.discipline + item.days}
+                    className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 rounded-lg border border-border/70 bg-background/60 p-2.5 transition-colors hover:border-lime/40"
+                  >
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="rounded bg-lime/15 px-1.5 py-0.5 text-[9px] font-black uppercase text-lime">
+                          {item.badge}
+                        </span>
+                        <p className="text-xs sm:text-sm font-bold text-foreground">
+                          {item.discipline}
+                        </p>
+                      </div>
+                      <p className="mt-0.5 text-[11px] text-muted-foreground">
+                        {item.days}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-1.5 self-start sm:self-center font-mono text-xs font-bold text-lime">
+                      <Clock className="size-3 text-lime/80" />
+                      <span>{item.time}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
             {/* Phone */}
             <div className="flex gap-3 rounded-xl border border-border bg-card/60 p-3.5 md:p-4">
               <Phone className="mt-0.5 size-4 shrink-0 text-lime" />
               <p className="text-xs md:text-sm">06-10-30-70-60</p>
             </div>
-            {/* Service pills */}
-            <div className="flex flex-wrap gap-1.5 md:gap-2">
-              <Pill>Kickboxing</Pill>
-              <Pill>MMA</Pill>
-              <Pill>Taekwondo</Pill>
-              <Pill>Aïkido</Pill>
-              <Pill>Kid&apos;s Gymnastics</Pill>
-              <Pill>Bodybuilding 100% Men</Pill>
-              <Pill>Yoga & Pilates</Pill>
-              <Pill>Parking gratuit</Pill>
-              <Pill>Vestiaires & douches</Pill>
+
+            {/* Service pills / Programmes */}
+            <div className="rounded-xl border border-border bg-card/60 p-3.5 md:p-4">
+              <h3 className="mb-2.5 text-[11px] font-bold uppercase tracking-[0.2em] text-lime">
+                Programmes & Disciplines
+              </h3>
+              <div className="flex flex-wrap gap-1.5 md:gap-2">
+                {clubProgrammes.map((prog) => (
+                  <Pill key={prog}>{prog}</Pill>
+                ))}
+                <Pill>Parking gratuit</Pill>
+                <Pill>Vestiaires & douches</Pill>
+              </div>
             </div>
             <button
               onClick={onResetView}
