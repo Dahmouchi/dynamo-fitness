@@ -847,44 +847,7 @@ export function TabContent({
               </ul>
             </div>
 
-            {/* Horaires Spécifiques des Cours */}
-            <div className="rounded-xl border border-lime/40 bg-gradient-to-b from-lime/10 via-card/70 to-card/70 p-3.5 md:p-4 shadow-sm">
-              <div className="mb-3 flex items-center justify-between">
-                <h3 className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-lime md:text-xs">
-                  <Swords className="size-3.5 text-lime" /> Horaires des Cours
-                </h3>
-                <span className="rounded-full bg-lime/20 px-2 py-0.5 text-[9px] font-black uppercase text-lime">
-                  Combats & Kids
-                </span>
-              </div>
-              <div className="space-y-2">
-                {specialSchedules.map((item) => (
-                  <div
-                    key={item.discipline + item.days}
-                    className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 rounded-lg border border-border/70 bg-background/60 p-2.5 transition-colors hover:border-lime/40"
-                  >
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="rounded bg-lime/15 px-1.5 py-0.5 text-[9px] font-black uppercase text-lime">
-                          {item.badge}
-                        </span>
-                        <p className="text-xs sm:text-sm font-bold text-foreground">
-                          {item.discipline}
-                        </p>
-                      </div>
-                      <p className="mt-0.5 text-[11px] text-muted-foreground">
-                        {item.days}
-                      </p>
-                    </div>
-                    <div className="flex items-center gap-1.5 self-start sm:self-center font-mono text-xs font-bold text-lime">
-                      <Clock className="size-3 text-lime/80" />
-                      <span>{item.time}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
+           
             {/* Phone */}
             <div className="flex gap-3 rounded-xl border border-border bg-card/60 p-3.5 md:p-4">
               <Phone className="mt-0.5 size-4 shrink-0 text-lime" />
