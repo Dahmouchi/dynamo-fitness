@@ -211,10 +211,10 @@ export const programme = [
         category: "kickboxing" as const,
       },
       {
-        t: "20:25 - 22:30",
+        t: "20:45 - 22:30",
         n: "Boxe Anglaise",
         c: "Ring de Boxe",
-        d: "125 min",
+        d: "105 min",
         category: "boxing" as const,
       },
     ],
