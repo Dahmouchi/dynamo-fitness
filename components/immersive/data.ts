@@ -146,7 +146,7 @@ export const specialSchedules = [
   },
   {
     discipline: "Boxe anglaise",
-    time: "20H25 - 22H30",
+    time: "20H45 - 22H30",
     days: "Mardi",
     badge: "Boxe",
   },
@@ -434,7 +434,8 @@ export const plans: Plan[] = [
   {
     id: "muscu-cardio",
     name: "Musculation cardio 100% Homme",
-    subtitle: "Accès libre aux plateaux machines Hammer Strength & charges libres",
+    subtitle:
+      "Accès libre aux plateaux machines Hammer Strength & charges libres",
     price: "300",
     period: "DHS / mois",
     badge: "100% Homme",
