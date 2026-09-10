@@ -146,7 +146,7 @@ export const specialSchedules = [
   },
   {
     discipline: "Boxe anglaise",
-    time: "20H45 - 22H30",
+    time: "20H25 - 22H30",
     days: "Mardi",
     badge: "Boxe",
   },
